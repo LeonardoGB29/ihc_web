@@ -18,7 +18,19 @@ export default {
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
+        surface: "hsl(var(--surface))",
         foreground: "hsl(var(--foreground))",
+        "text-primary": "hsl(var(--text-primary))",
+        "text-secondary": "hsl(var(--text-secondary))",
+        purple: {
+          DEFAULT: "hsl(var(--purple))",
+          border: "hsl(var(--purple-border))",
+          translucent: "hsl(var(--purple-translucent))",
+        },
+        cyan: {
+          DEFAULT: "hsl(var(--cyan))",
+          translucent: "hsl(var(--cyan-translucent))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -57,6 +69,18 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+      },
+      backgroundImage: {
+        "gradient-diagonal": "var(--gradient-diagonal)",
+        "gradient-hero": "var(--gradient-hero)",
+      },
+      boxShadow: {
+        subtle: "var(--shadow-subtle)",
+        elevated: "var(--shadow-elevated)",
+      },
+      transitionDuration: {
+        smooth: "200ms",
+        micro: "180ms",
       },
       borderRadius: {
         lg: "var(--radius)",
