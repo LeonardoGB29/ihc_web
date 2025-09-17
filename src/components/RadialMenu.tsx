@@ -82,11 +82,11 @@ const RadialMenu = ({ activeSection, onNavigate, processStep = 1, onProcessStepC
     <div className="fixed left-0 top-1/2 transform -translate-y-1/2 w-1/4 flex items-center justify-center z-30">
       <div className="relative">
         {/* Radial Arc Menu */}
-        <div className="relative w-48 h-48">
+        <div className="relative w-56 h-56">
           {menuItems.map((item, index) => {
-            const angle = (index * 22.5) - 45; // Quarter circle spread
+            const angle = (index * 30) - 45; // More spread for better spacing
             const radian = (angle * Math.PI) / 180;
-            const radius = 80;
+            const radius = 100; // Increased radius for more spacing
             const x = Math.cos(radian) * radius;
             const y = Math.sin(radian) * radius;
             
@@ -113,40 +113,6 @@ const RadialMenu = ({ activeSection, onNavigate, processStep = 1, onProcessStepC
             );
           })}
         </div>
-
-        {/* Process Step Cards (only show when process section is active) */}
-        {activeSection === 'process' && (
-          <div className="absolute left-full ml-4 top-1/2 transform -translate-y-1/2">
-            <div className="flex flex-col gap-2">
-              {processSteps.map((step, index) => {
-                const angle = (index * 15) - 30; // Curved alignment
-                const radian = (angle * Math.PI) / 180;
-                const radius = 40;
-                const x = Math.cos(radian) * radius;
-                const y = Math.sin(radian) * radius;
-
-                return (
-                  <button
-                    key={step.id}
-                    onClick={() => onProcessStepChange?.(step.id)}
-                    className={cn(
-                      "w-20 h-12 rounded-lg flex flex-col items-center justify-center text-xs transition-smooth border relative",
-                      processStep === step.id
-                        ? "bg-purple text-white border-cyan shadow-subtle"
-                        : "bg-purple-translucent text-text-secondary border-purple-border hover:bg-purple/10 hover:border-cyan/30"
-                    )}
-                    style={{
-                      transform: `translate(${x}px, ${y}px)`,
-                    }}
-                  >
-                    <span className="text-xs font-bold">{step.id}</span>
-                    <span className="text-[9px] leading-tight">{step.title}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
