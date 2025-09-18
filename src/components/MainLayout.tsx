@@ -11,11 +11,23 @@ const MainLayout = () => {
   const [processStep, setProcessStep] = useState(1);
   const [showMenu, setShowMenu] = useState(false);
 
-  // Intersection observers for scroll spy
-  const [projectsRef, projectsInView] = useInView({ threshold: 0.3 });
-  const [processRef, processInView] = useInView({ threshold: 0.3 });
-  const [repositoryRef, repositoryInView] = useInView({ threshold: 0.3 });
-  const [teamRef, teamInView] = useInView({ threshold: 0.3 });
+  // Intersection observers for scroll spy - improved with directional detection
+  const [projectsRef, projectsInView] = useInView({ 
+    threshold: 0.3,
+    rootMargin: '-20% 0px -20% 0px'
+  });
+  const [processRef, processInView] = useInView({ 
+    threshold: 0.3,
+    rootMargin: '-20% 0px -20% 0px'
+  });
+  const [repositoryRef, repositoryInView] = useInView({ 
+    threshold: 0.3,
+    rootMargin: '-20% 0px -20% 0px'
+  });
+  const [teamRef, teamInView] = useInView({ 
+    threshold: 0.3,
+    rootMargin: '-20% 0px -20% 0px'
+  });
 
   // Show menu when scrolled past hero
   useEffect(() => {
@@ -31,18 +43,29 @@ const MainLayout = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Update active section based on scroll position
+  // Update active section based on scroll position with bidirectional support
   useEffect(() => {
-    if (teamInView) setActiveSection('team');
-    else if (repositoryInView) setActiveSection('repository');
-    else if (processInView) setActiveSection('process');
-    else if (projectsInView) setActiveSection('projects');
-  }, [projectsInView, processInView, repositoryInView, teamInView]);
+    // Determine scroll direction and update active section accordingly
+    let newActiveSection = activeSection;
+    
+    if (teamInView) newActiveSection = 'team';
+    else if (repositoryInView) newActiveSection = 'repository';
+    else if (processInView) newActiveSection = 'process';
+    else if (projectsInView) newActiveSection = 'projects';
+    
+    // Only update if section actually changed to prevent unnecessary re-renders
+    if (newActiveSection !== activeSection) {
+      setActiveSection(newActiveSection);
+    }
+  }, [projectsInView, processInView, repositoryInView, teamInView, activeSection]);
 
   const handleNavigate = (section: string) => {
     setActiveSection(section);
     const element = document.getElementById(section);
-    element?.scrollIntoView({ behavior: 'smooth' });
+    element?.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
+    });
   };
 
   const handleProcessStepChange = (step: number) => {

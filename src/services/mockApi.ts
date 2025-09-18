@@ -28,7 +28,14 @@ export interface ProcessStep {
     src: string;
   };
   summary: string;
-  links: string[];
+  links: Array<{
+    title: string;
+    url: string;
+  }>;
+}
+
+export interface Process {
+  steps: ProcessStep[];
 }
 
 export interface Repository {
@@ -89,42 +96,57 @@ const mockProjects: Project[] = [
   }
 ];
 
-const mockProcess = {
+const mockProcess: Process = {
   steps: [
     {
       id: 1,
-      title: 'Análisis de Requerimientos',
-      media: { type: 'image' as const, src: '/placeholder.svg' },
-      summary: 'Identificación de necesidades del cliente y definición de objetivos del proyecto.',
-      links: ['https://docs.example.com/analysis']
+      title: 'Análisis',
+      media: { type: 'image' as const, src: projectAcademic },
+      summary: 'Investigación exhaustiva de requisitos, análisis de stakeholders y definición del alcance del proyecto. Identificamos oportunidades y riesgos para crear soluciones efectivas.',
+      links: [
+        { title: 'Metodología de análisis', url: '#' },
+        { title: 'Plantillas de requisitos', url: '#' }
+      ]
     },
     {
       id: 2,
-      title: 'Diseño de Arquitectura',
-      media: { type: 'image' as const, src: '/placeholder.svg' },
-      summary: 'Creación de wireframes, mockups y definición de la arquitectura técnica.',
-      links: ['https://figma.com/design-system']
+      title: 'Diseño',
+      media: { type: 'image' as const, src: projectEcommerce },
+      summary: 'Creación de wireframes, prototipos interactivos y sistema de diseño. Definimos la arquitectura técnica y la experiencia de usuario óptima.',
+      links: [
+        { title: 'Sistema de diseño', url: '#' },
+        { title: 'Prototipos Figma', url: '#' }
+      ]
     },
     {
       id: 3,
-      title: 'Desarrollo Iterativo',
-      media: { type: 'gif' as const, src: '/placeholder.svg' },
-      summary: 'Implementación de funcionalidades siguiendo metodologías ágiles.',
-      links: ['https://github.com/example/project']
+      title: 'Desarrollo',
+      media: { type: 'image' as const, src: projectIot },
+      summary: 'Implementación ágil con sprints de 2 semanas. Desarrollo frontend y backend con testing continuo y revisiones de código.',
+      links: [
+        { title: 'Guías de desarrollo', url: '#' },
+        { title: 'Estándares de código', url: '#' }
+      ]
     },
     {
       id: 4,
-      title: 'Testing y QA',
-      media: { type: 'video' as const, src: '/placeholder.svg' },
-      summary: 'Pruebas unitarias, de integración y testing de usuario.',
-      links: ['https://testing.example.com']
+      title: 'Testing',
+      media: { type: 'image' as const, src: projectAcademic },
+      summary: 'Pruebas unitarias, de integración y end-to-end. Testing de usabilidad y performance con usuarios reales.',
+      links: [
+        { title: 'Plan de testing', url: '#' },
+        { title: 'Automatización QA', url: '#' }
+      ]
     },
     {
       id: 5,
-      title: 'Despliegue y Monitoreo',
-      media: { type: 'image' as const, src: '/placeholder.svg' },
-      summary: 'Deploy en producción y configuración de monitoreo continuo.',
-      links: ['https://monitoring.example.com']
+      title: 'Deploy',
+      media: { type: 'image' as const, src: projectEcommerce },
+      summary: 'Despliegue automático con CI/CD, monitoreo en producción y soporte post-lanzamiento. Documentación completa para el cliente.',
+      links: [
+        { title: 'Pipeline DevOps', url: '#' },
+        { title: 'Documentación', url: '#' }
+      ]
     }
   ]
 };
@@ -208,12 +230,12 @@ export const api = {
   getProjects: (): Promise<Project[]> => 
     new Promise(resolve => setTimeout(() => resolve(mockProjects), 300)),
     
-  getProcess: (): Promise<typeof mockProcess> => 
-    new Promise(resolve => setTimeout(() => resolve(mockProcess), 300)),
+  getProcess: (): Promise<Process> => 
+    new Promise(resolve => setTimeout(() => resolve(mockProcess), 600)),
     
-  getRepos: (): Promise<Repository[]> => 
-    new Promise(resolve => setTimeout(() => resolve(mockRepos), 300)),
+  getRepositories: (): Promise<Repository[]> => 
+    new Promise(resolve => setTimeout(() => resolve(mockRepos), 700)),
     
   getTeam: (): Promise<TeamMember[]> => 
-    new Promise(resolve => setTimeout(() => resolve(mockTeam), 300)),
+    new Promise(resolve => setTimeout(() => resolve(mockTeam), 500)),
 };

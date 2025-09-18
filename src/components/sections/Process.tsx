@@ -185,10 +185,10 @@ const Process = ({ activeStep, onStepChange }: ProcessProps) => {
                         size="sm"
                         variant="outline"
                         className="w-full justify-start border-purple-border bg-purple-translucent hover:bg-purple/10 text-xs"
-                        onClick={() => window.open(link, '_blank')}
+                        onClick={() => window.open(link.url, '_blank')}
                       >
                         <ExternalLink className="w-3 h-3 mr-2" />
-                        Ver recurso {index + 1}
+                        {link.title}
                       </Button>
                     ))}
                   </div>

@@ -16,7 +16,7 @@ const Repository = () => {
   useEffect(() => {
     const loadRepos = async () => {
       try {
-        const data = await api.getRepos();
+        const data = await api.getRepositories();
         setRepos(data);
       } finally {
         setLoading(false);
