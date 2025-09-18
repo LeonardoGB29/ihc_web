@@ -58,6 +58,15 @@
     --transition-smooth: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-micro: all 180ms ease-out;
   }
+  
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 @layer base {

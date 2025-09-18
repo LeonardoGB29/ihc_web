@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import RadialMenu from "./RadialMenu";
-import Projects from "./sections/Projects";
+import ProjectsSimplified from "./sections/ProjectsSimplified";
 import Process from "./sections/Process";
 import Repository from "./sections/Repository";
 import Team from "./sections/Team";
@@ -68,6 +68,14 @@ const MainLayout = () => {
     });
   };
 
+  const handleGoUp = () => {
+    const contentElement = document.getElementById('projects');
+    contentElement?.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
+    });
+  };
+
   const handleProcessStepChange = (step: number) => {
     setProcessStep(step);
   };
@@ -82,6 +90,8 @@ const MainLayout = () => {
             <RadialMenu 
               activeSection={activeSection}
               onNavigate={handleNavigate}
+              showGoUp={showMenu}
+              onGoUp={handleGoUp}
               processStep={processStep}
               onProcessStepChange={handleProcessStepChange}
             />
@@ -92,7 +102,7 @@ const MainLayout = () => {
             <div className="max-w-6xl">
               {/* Projects Section */}
               <div id="projects" ref={projectsRef}>
-                <Projects />
+                <ProjectsSimplified />
               </div>
 
               {/* Process Section */}
@@ -123,7 +133,7 @@ const MainLayout = () => {
           <div className="max-w-6xl mx-auto">
             {/* Projects Section */}
             <div id="projects" ref={projectsRef}>
-              <Projects />
+              <ProjectsSimplified />
             </div>
 
             {/* Process Section */}
