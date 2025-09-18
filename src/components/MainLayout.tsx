@@ -76,14 +76,16 @@ const MainLayout = () => {
               key={id}
               className={id !== "hero" ? "pt-20" : ""}
             >
-              <Component
-                {...(id === "process"
-                  ? {
-                      activeStep: processStep,
-                      onStepChange: handleProcessStepChange,
-                    }
-                  : {})}
-              />
+              {id === "process" ? (
+                <Component
+                  activeStep={processStep}
+                  onStepChange={handleProcessStepChange}
+                />
+              ) : (
+                <Component activeStep={0} onStepChange={function (step: number): void {
+                    throw new Error("Function not implemented.");
+                  } } />
+              )}
             </section>
           ))}
         </div>

@@ -9,6 +9,7 @@ interface HeroProps {
 
 const Hero = ({ activeStep, onStepChange }: HeroProps) => {
   const scrollToContent = () => {
+    /* FIXME: Adaptar HeroProps a MainLayout + RadialMenu */
     const element = document.getElementById('main-content');
     element?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -48,6 +49,7 @@ const Hero = ({ activeStep, onStepChange }: HeroProps) => {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+          {/* FIXME: Adaptar onStepChange a MainLayout + RadialMenu */}
           <Button 
             onClick={() => onStepChange(1)}
             className="bg-purple hover:bg-purple/90 text-white px-8 py-6 text-lg transition-micro border border-purple-border hover:border-cyan/50 motion-reduce:transition-none"
@@ -65,6 +67,7 @@ const Hero = ({ activeStep, onStepChange }: HeroProps) => {
       </div>
 
       {/* Scroll Indicator with reduced motion support */}
+      {/* FIXME: Adaptar scrollToContent a MainLayout + RadialMenu */}
       <button 
         onClick={scrollToContent}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-text-secondary hover:text-cyan transition-micro motion-reduce:animate-none"
