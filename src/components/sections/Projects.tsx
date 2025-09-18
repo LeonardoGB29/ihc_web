@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import { ExternalLink, Github, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +10,9 @@ const Projects = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedTag, setSelectedTag] = useState<string>('all');
+  
+  const [headerRef, headerInView] = useInView({ threshold: 0.3, triggerOnce: true });
+  const [gridRef, gridInView] = useInView({ threshold: 0.2, triggerOnce: true });
 
   useEffect(() => {
     const loadProjects = async () => {
@@ -49,7 +53,13 @@ const Projects = () => {
   return (
     <section className="py-20">
       <div className="space-y-8">
-        <div>
+        <div 
+          ref={headerRef}
+          className={cn(
+            "transition-all duration-700 transform",
+            headerInView ? "animate-fade-in" : "opacity-0 translate-y-8"
+          )}
+        >
           <h2 className="text-4xl font-bold text-text-primary mb-4">Proyectos</h2>
           <p className="text-text-secondary text-lg mb-8">
             Explora nuestros proyectos más destacados y las tecnologías implementadas.
@@ -75,11 +85,24 @@ const Projects = () => {
         </div>
 
         {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map(project => (
+        <div 
+          ref={gridRef}
+          className={cn(
+            "grid md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-700 transform",
+            gridInView ? "animate-fade-in" : "opacity-0 translate-y-8"
+          )}
+        >
+          {filteredProjects.map((project, index) => (
             <div 
               key={project.id}
-              className="group bg-surface border border-purple-border rounded-xl overflow-hidden hover:shadow-elevated transition-smooth hover:border-cyan/30"
+              className={cn(
+                "group bg-surface border border-purple-border rounded-xl overflow-hidden hover:shadow-elevated transition-smooth hover:border-cyan/30",
+                "transform transition-all duration-500",
+                gridInView ? "animate-scale-in" : "opacity-0 scale-95"
+              )}
+              style={{
+                animationDelay: `${index * 100}ms`
+              }}
             >
               {/* Project Cover */}
               <div className="aspect-video relative overflow-hidden">

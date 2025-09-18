@@ -1,11 +1,17 @@
 import { useState, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import { Github, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { api, Repository as RepoType } from "@/services/mockApi";
+import { cn } from "@/lib/utils";
 
 const Repository = () => {
   const [repos, setRepos] = useState<RepoType[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  const [headerRef, headerInView] = useInView({ threshold: 0.3, triggerOnce: true });
+  const [gridRef, gridInView] = useInView({ threshold: 0.2, triggerOnce: true });
+  const [ctaRef, ctaInView] = useInView({ threshold: 0.3, triggerOnce: true });
 
   useEffect(() => {
     const loadRepos = async () => {
@@ -43,7 +49,13 @@ const Repository = () => {
   return (
     <section className="py-20">
       <div className="space-y-8">
-        <div>
+        <div 
+          ref={headerRef}
+          className={cn(
+            "transition-all duration-700 transform",
+            headerInView ? "animate-fade-in" : "opacity-0 translate-y-8"
+          )}
+        >
           <h2 className="text-4xl font-bold text-text-primary mb-4">Repositorio</h2>
           <p className="text-text-secondary text-lg mb-8">
             Explora el código en acción: desde el desarrollo hasta el resultado final.
@@ -51,11 +63,23 @@ const Repository = () => {
         </div>
 
         {/* Repository Grid */}
-        <div className="grid md:grid-cols-2 gap-6">
-          {repos.map(repo => (
+        <div 
+          ref={gridRef}
+          className={cn(
+            "grid md:grid-cols-2 gap-6 transition-all duration-700 transform",
+            gridInView ? "animate-fade-in" : "opacity-0 translate-y-8"
+          )}
+        >
+          {repos.map((repo, index) => (
             <div 
               key={repo.id}
-              className="group bg-surface border border-purple-border rounded-xl p-6 hover:shadow-elevated transition-smooth hover:border-cyan/30"
+              className={cn(
+                "group bg-surface border border-purple-border rounded-xl p-6 hover:shadow-elevated transition-smooth hover:border-cyan/30 transform",
+                gridInView ? "animate-scale-in" : "opacity-0 scale-95"
+              )}
+              style={{
+                animationDelay: `${index * 150}ms`
+              }}
             >
               <h3 className="text-xl font-semibold text-text-primary mb-4 group-hover:text-cyan transition-smooth">
                 {repo.title}
@@ -112,7 +136,13 @@ const Repository = () => {
         </div>
 
         {/* Call to Action */}
-        <div className="text-center pt-8">
+        <div 
+          ref={ctaRef}
+          className={cn(
+            "text-center pt-8 transition-all duration-700 transform",
+            ctaInView ? "animate-fade-in" : "opacity-0 translate-y-8"
+          )}
+        >
           <div className="bg-surface border border-purple-border rounded-xl p-8">
             <h3 className="text-xl font-semibold text-text-primary mb-3">
               ¿Quieres ver más código?

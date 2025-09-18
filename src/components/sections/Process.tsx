@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import { ExternalLink, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { api, ProcessStep } from "@/services/mockApi";
@@ -12,6 +13,9 @@ interface ProcessProps {
 const Process = ({ activeStep, onStepChange }: ProcessProps) => {
   const [processData, setProcessData] = useState<{ steps: ProcessStep[] } | null>(null);
   const [loading, setLoading] = useState(true);
+  
+  const [headerRef, headerInView] = useInView({ threshold: 0.3, triggerOnce: true });
+  const [contentRef, contentInView] = useInView({ threshold: 0.2, triggerOnce: true });
 
   useEffect(() => {
     const loadProcess = async () => {
@@ -43,7 +47,13 @@ const Process = ({ activeStep, onStepChange }: ProcessProps) => {
   return (
     <section className="py-20">
       <div className="space-y-8">
-        <div>
+        <div 
+          ref={headerRef}
+          className={cn(
+            "transition-all duration-700 transform",
+            headerInView ? "animate-fade-in" : "opacity-0 translate-y-8"
+          )}
+        >
           <h2 className="text-4xl font-bold text-text-primary mb-4">Proceso de Desarrollo</h2>
           <p className="text-text-secondary text-lg mb-8">
             Conoce nuestra metodología paso a paso para crear soluciones tecnológicas innovadoras.
@@ -51,7 +61,13 @@ const Process = ({ activeStep, onStepChange }: ProcessProps) => {
         </div>
 
         {/* Three Panel Layout */}
-        <div className="grid grid-cols-12 gap-6 min-h-[500px]">
+        <div 
+          ref={contentRef}
+          className={cn(
+            "grid grid-cols-12 gap-6 min-h-[500px] transition-all duration-700 transform",
+            contentInView ? "animate-scale-in" : "opacity-0 scale-95"
+          )}
+        >
           {/* Timeline Panel (Left) */}
           <div className="col-span-12 md:col-span-3">
             <div className="space-y-3">

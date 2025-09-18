@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import { Github, Linkedin, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { api, TeamMember } from "@/services/mockApi";
+import { cn } from "@/lib/utils";
 
 const Team = () => {
   const [team, setTeam] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  const [headerRef, headerInView] = useInView({ threshold: 0.3, triggerOnce: true });
+  const [gridRef, gridInView] = useInView({ threshold: 0.2, triggerOnce: true });
+  const [statsRef, statsInView] = useInView({ threshold: 0.3, triggerOnce: true });
 
   useEffect(() => {
     const loadTeam = async () => {
@@ -42,7 +48,13 @@ const Team = () => {
   return (
     <section className="py-20">
       <div className="space-y-8">
-        <div className="text-center">
+        <div 
+          ref={headerRef}
+          className={cn(
+            "text-center transition-all duration-700 transform",
+            headerInView ? "animate-fade-in" : "opacity-0 translate-y-8"
+          )}
+        >
           <h2 className="text-4xl font-bold text-text-primary mb-4">Nuestro Equipo</h2>
           <p className="text-text-secondary text-lg mb-12 max-w-2xl mx-auto">
             Conoce a los profesionales que hacen posible cada proyecto, 
@@ -51,13 +63,23 @@ const Team = () => {
         </div>
 
         {/* Team Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div 
+          ref={gridRef}
+          className={cn(
+            "grid md:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-700 transform",
+            gridInView ? "animate-fade-in" : "opacity-0 translate-y-8"
+          )}
+        >
           {team.map((member, index) => (
             <div 
               key={index}
-              className="group bg-surface border border-purple-border rounded-xl p-6 hover:shadow-elevated transition-smooth hover:border-cyan/30 transform hover:-translate-y-1"
+              className={cn(
+                "group bg-surface border border-purple-border rounded-xl p-6 hover:shadow-elevated transition-smooth hover:border-cyan/30 transform hover:-translate-y-1 relative",
+                gridInView ? "animate-scale-in" : "opacity-0 scale-95"
+              )}
               style={{
                 transform: `rotate(${index % 2 === 0 ? 1 : -1}deg)`,
+                animationDelay: `${index * 100}ms`
               }}
             >
               {/* Avatar */}
@@ -158,7 +180,13 @@ const Team = () => {
         </div>
 
         {/* Team Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-12">
+        <div 
+          ref={statsRef}
+          className={cn(
+            "grid grid-cols-2 md:grid-cols-4 gap-4 pt-12 transition-all duration-700 transform",
+            statsInView ? "animate-fade-in" : "opacity-0 translate-y-8"
+          )}
+        >
           <div className="bg-surface border border-purple-border rounded-xl p-6 text-center">
             <div className="text-2xl font-bold text-purple mb-2">{team.length}</div>
             <div className="text-sm text-text-secondary">Integrantes</div>
