@@ -82,12 +82,13 @@ const RadialMenu = ({ activeSection, onNavigate, processStep = 1, onProcessStepC
     <div className="fixed left-0 top-1/2 transform -translate-y-1/2 w-1/4 flex items-center justify-center z-30">
       <div className="relative">
         {/* Radial Arc Menu - Half circle cut vertically on the right */}
-        <div className="relative w-48 h-48">
+        <div className="relative w-56 h-56">
           {menuItems.map((item, index) => {
             // Arc from -90° to 90° (half circle, right side cut)
-            const angle = -90 + (index * 60); // Spread across 180 degrees
-            const radian = (angle * Math.PI) / 180;
-            const radius = 80;
+            const angle = -90 + (index * 60); // Spread across 180 degrees (4 items * 60° = 240°, but we want 180°)
+            const adjustedAngle = -90 + (index * 45); // Better spacing: 4 items across 135 degrees
+            const radian = (adjustedAngle * Math.PI) / 180;
+            const radius = 90;
             const x = Math.cos(radian) * radius;
             const y = Math.sin(radian) * radius;
             
@@ -96,7 +97,7 @@ const RadialMenu = ({ activeSection, onNavigate, processStep = 1, onProcessStepC
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
                 className={cn(
-                  "absolute w-14 h-14 rounded-full flex flex-col items-center justify-center text-xs transition-smooth transform -translate-x-1/2 -translate-y-1/2 border hover:scale-110",
+                  "absolute w-16 h-16 rounded-full flex flex-col items-center justify-center text-xs transition-smooth transform -translate-x-1/2 -translate-y-1/2 border hover:scale-110 group",
                   activeSection === item.id
                     ? "bg-purple text-white border-cyan shadow-elevated scale-110"
                     : "bg-purple-translucent text-text-secondary border-purple-border hover:text-text-primary hover:bg-purple/30 hover:border-cyan/50"
@@ -108,14 +109,16 @@ const RadialMenu = ({ activeSection, onNavigate, processStep = 1, onProcessStepC
                 }}
                 title={item.label}
               >
-                <item.icon className="w-4 h-4 mb-1" />
-                <span className="text-[9px] font-medium leading-tight">{item.label}</span>
+                <item.icon className="w-5 h-5 mb-1" />
+                <span className="text-[10px] font-medium leading-tight">{item.label}</span>
               </button>
             );
           })}
           
-          {/* Central decoration */}
-          <div className="absolute left-1/2 top-1/2 w-4 h-4 bg-purple-translucent border border-purple-border rounded-full transform -translate-x-1/2 -translate-y-1/2" />
+          {/* Central hub */}
+          <div className="absolute left-1/2 top-1/2 w-6 h-6 bg-purple-translucent border-2 border-purple-border rounded-full transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+            <div className="w-2 h-2 bg-purple rounded-full" />
+          </div>
         </div>
       </div>
     </div>
