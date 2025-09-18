@@ -1,70 +1,55 @@
 import { useState, useEffect } from "react";
-import { useInView } from "react-intersection-observer";
-import RadialMenu from "./RadialMenu";
+import Hero from "./sections/Hero";
 import Projects from "./sections/Projects";
 import Process from "./sections/Process";
 import Repository from "./sections/Repository";
 import Team from "./sections/Team";
+import RadialMenu from "./RadialMenu";
+
+// Definimos un array con todas las secciones
+const sections = [
+  { id: "hero", Component: Hero },
+  { id: "projects", Component: Projects },
+  { id: "process", Component: Process },
+  { id: "repository", Component: Repository },
+  { id: "team", Component: Team },
+];
 
 const MainLayout = () => {
-  const [activeSection, setActiveSection] = useState('projects');
+  const [activeSection, setActiveSection] = useState("hero");
   const [processStep, setProcessStep] = useState(1);
-  const [showMenu, setShowMenu] = useState(false);
 
-  // Intersection observers for scroll spy - improved with directional detection
-  const [projectsRef, projectsInView] = useInView({ 
-    threshold: 0.3,
-    rootMargin: '-20% 0px -20% 0px'
-  });
-  const [processRef, processInView] = useInView({ 
-    threshold: 0.3,
-    rootMargin: '-20% 0px -20% 0px'
-  });
-  const [repositoryRef, repositoryInView] = useInView({ 
-    threshold: 0.3,
-    rootMargin: '-20% 0px -20% 0px'
-  });
-  const [teamRef, teamInView] = useInView({ 
-    threshold: 0.3,
-    rootMargin: '-20% 0px -20% 0px'
-  });
-
-  // Show menu when scrolled past hero
+  // Detectar la sección activa con scroll
   useEffect(() => {
     const handleScroll = () => {
-      const heroElement = document.getElementById('hero');
-      if (heroElement) {
-        const heroRect = heroElement.getBoundingClientRect();
-        setShowMenu(heroRect.bottom <= 0);
-      }
+      let current = "hero";
+
+      sections.forEach(({ id }) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+
+        const rect = el.getBoundingClientRect();
+        if (
+          rect.top <= window.innerHeight / 2 &&
+          rect.bottom >= window.innerHeight / 2
+        ) {
+          current = id;
+        }
+      });
+
+      setActiveSection(current);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Inicializar al cargar
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  // Update active section based on scroll position with bidirectional support
-  useEffect(() => {
-    // Determine scroll direction and update active section accordingly
-    let newActiveSection = activeSection;
-    
-    if (teamInView) newActiveSection = 'team';
-    else if (repositoryInView) newActiveSection = 'repository';
-    else if (processInView) newActiveSection = 'process';
-    else if (projectsInView) newActiveSection = 'projects';
-    
-    // Only update if section actually changed to prevent unnecessary re-renders
-    if (newActiveSection !== activeSection) {
-      setActiveSection(newActiveSection);
-    }
-  }, [projectsInView, processInView, repositoryInView, teamInView, activeSection]);
 
   const handleNavigate = (section: string) => {
     setActiveSection(section);
-    const element = document.getElementById(section);
-    element?.scrollIntoView({ 
-      behavior: 'smooth',
-      block: 'start'
+    document.getElementById(section)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
     });
   };
 
@@ -74,74 +59,35 @@ const MainLayout = () => {
 
   return (
     <div id="main-content" className="relative min-h-screen">
-      {/* Fixed Two-Column Layout - Only show after hero */}
-        <div className="flex">
-          {/* Left Column - Radial Menu (25%) */}
-          <div className="relative">
-            <RadialMenu 
-              activeSection={activeSection}
-              onNavigate={handleNavigate}
-              processStep={processStep}
-              onProcessStepChange={handleProcessStepChange}
-            />
-          </div>
+      {/* Radial Menu */}
+      <RadialMenu
+        activeSection={activeSection}
+        onNavigate={handleNavigate}
+        processStep={processStep}
+        onProcessStepChange={handleProcessStepChange}
+      />
 
-          {/* Right Column - Content (75%) */}
-          <div className="px-8 py-12 z-40">
-            <div className="max-w-6xl">
-              {/* Projects Section */}
-              <div id="projects" ref={projectsRef}>
-                <Projects />
-              </div>
-
-              {/* Process Section */}
-              <div id="process" ref={processRef} className="pt-20">
-                <Process 
-                  activeStep={processStep}
-                  onStepChange={handleProcessStepChange}
-                />
-              </div>
-
-              {/* Repository Section */}
-              <div id="repository" ref={repositoryRef} className="pt-20">
-                <Repository />
-              </div>
-
-              {/* Team Section */}
-              <div id="team" ref={teamRef} className="pt-20">
-                <Team />
-              </div>
-            </div>
-          </div>
-        </div>
-
-      {/* Content without menu when hero is visible */}
-        <div className="px-8 py-12">
-          <div className="max-w-6xl mx-auto">
-            {/* Projects Section */}
-            <div id="projects" ref={projectsRef}>
-              <Projects />
-            </div>
-
-            {/* Process Section */}
-            <div id="process" ref={processRef} className="pt-20">
-              <Process 
-                activeStep={processStep}
-                onStepChange={handleProcessStepChange}
+      {/* Render dinámico de secciones */}
+      <div className="px-8 py-12">
+        <div className="max-w-6xl mx-auto">
+          {sections.map(({ id, Component }) => (
+            <section
+              id={id}
+              key={id}
+              className={id !== "hero" ? "pt-20" : ""}
+            >
+              <Component
+                {...(id === "process"
+                  ? {
+                      activeStep: processStep,
+                      onStepChange: handleProcessStepChange,
+                    }
+                  : {})}
               />
-            </div>
-
-            {/* Repository Section */}
-            <div id="repository" ref={repositoryRef} className="pt-20">
-              <Repository />
-            </div>
-
-            {/* Team Section */}
-            <div id="team" ref={teamRef} className="pt-20">
-              <Team />
-            </div>
-          </div>
+            </section>
+          ))}
         </div>
+      </div>
     </div>
   );
 };

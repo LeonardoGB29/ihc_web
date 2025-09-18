@@ -3,10 +3,11 @@ import { Button } from "@/components/ui/button";
 import heroBg from "@/assets/hero-bg.jpg";
 
 interface HeroProps {
-  onNavigate: (section: string) => void;
+  activeStep: number;
+  onStepChange: (step: number) => void;
 }
 
-const Hero = ({ onNavigate }: HeroProps) => {
+const Hero = ({ activeStep, onStepChange }: HeroProps) => {
   const scrollToContent = () => {
     const element = document.getElementById('main-content');
     element?.scrollIntoView({ behavior: 'smooth' });
@@ -32,28 +33,29 @@ const Hero = ({ onNavigate }: HeroProps) => {
 
       <div className="container mx-auto px-6 text-center z-10">
         <p className="text-text-secondary text-sm mb-4 font-medium tracking-wide uppercase">
-          Instituto Tecnológico
+          Universidad Nacional de San Agustín
         </p>
         
         <h1 className="text-5xl md:text-7xl font-bold text-text-primary mb-6 leading-tight">
-          Portafolio
-          <span className="block text-purple"> Digital</span>
+          Proyecto de{' '}
+          <span className="block text-purple">Interacción Humano-Computador</span>
         </h1>
         
         <p className="text-xl text-text-secondary mb-12 max-w-2xl mx-auto leading-relaxed">
-          Descubre nuestros proyectos innovadores, metodologías de desarrollo 
-          y el talento detrás de cada solución tecnológica.
+          Explorando la intersección entre las personas, la tecnología y el diseño para crear experiencias digitales significativas y accesibles.
+          <br />
+          Messi el GOAT 🐐
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
           <Button 
-            onClick={() => onNavigate('projects')}
+            onClick={() => onStepChange(1)}
             className="bg-purple hover:bg-purple/90 text-white px-8 py-6 text-lg transition-micro border border-purple-border hover:border-cyan/50 motion-reduce:transition-none"
           >
             Ver Proyectos
           </Button>
           <Button 
-            onClick={() => onNavigate('process')}
+            onClick={() => onStepChange(2)}
             variant="outline"
             className="border-purple-border bg-purple-translucent hover:bg-purple/10 text-text-primary px-8 py-6 text-lg transition-micro hover:border-cyan/50 motion-reduce:transition-none"
           >
