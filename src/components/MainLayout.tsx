@@ -75,10 +75,9 @@ const MainLayout = () => {
   return (
     <div id="main-content" className="relative min-h-screen">
       {/* Fixed Two-Column Layout - Only show after hero */}
-      {showMenu && (
         <div className="flex">
           {/* Left Column - Radial Menu (25%) */}
-          <div className="w-1/4 relative">
+          <div className="relative">
             <RadialMenu 
               activeSection={activeSection}
               onNavigate={handleNavigate}
@@ -88,7 +87,7 @@ const MainLayout = () => {
           </div>
 
           {/* Right Column - Content (75%) */}
-          <div className="w-3/4 px-8 py-12">
+          <div className="px-8 py-12 z-40">
             <div className="max-w-6xl">
               {/* Projects Section */}
               <div id="projects" ref={projectsRef}>
@@ -115,10 +114,8 @@ const MainLayout = () => {
             </div>
           </div>
         </div>
-      )}
 
       {/* Content without menu when hero is visible */}
-      {!showMenu && (
         <div className="px-8 py-12">
           <div className="max-w-6xl mx-auto">
             {/* Projects Section */}
@@ -145,7 +142,6 @@ const MainLayout = () => {
             </div>
           </div>
         </div>
-      )}
     </div>
   );
 };

@@ -41,7 +41,7 @@ const RadialMenu = ({ activeSection, onNavigate, processStep = 1, onProcessStepC
         {/* Mobile FAB */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="fixed top-6 left-6 z-50 w-12 h-12 bg-purple border border-purple-border rounded-full flex items-center justify-center text-white hover:bg-purple/90 transition-smooth shadow-elevated"
+          className="fixed top-6 right-6 z-50 w-12 h-12 bg-purple border border-purple-border rounded-full flex items-center justify-center text-white hover:bg-purple/90 transition-smooth shadow-elevated"
           aria-label="Toggle menu"
         >
           {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -50,7 +50,7 @@ const RadialMenu = ({ activeSection, onNavigate, processStep = 1, onProcessStepC
         {/* Mobile Side Panel */}
         {isOpen && (
           <div className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm" onClick={() => setIsOpen(false)}>
-            <div className="fixed left-0 top-0 h-full w-64 bg-surface border-r border-purple-border p-6" onClick={e => e.stopPropagation()}>
+            <div className="fixed right-0 top-0 h-full w-64 bg-surface border-r border-purple-border p-6" onClick={e => e.stopPropagation()}>
               <div className="mt-16 space-y-4">
                 {menuItems.map(item => (
                   <button
@@ -79,15 +79,15 @@ const RadialMenu = ({ activeSection, onNavigate, processStep = 1, onProcessStepC
   }
 
   return (
-    <div className="fixed left-0 top-1/2 transform -translate-y-1/2 w-1/4 flex items-center justify-center z-30">
+    <div className="fixed right-0 top-1/2 transform -translate-y-1/2 flex items-center justify-center z-50">
       <div className="relative">
         {/* Radial Arc Menu - Half circle cut vertically on the right */}
         <div className="relative w-56 h-56">
           {menuItems.map((item, index) => {
             // Arc from -90° to 90° (half circle, right side cut)
             const angle = -90 + (index * 60); // Spread across 180 degrees (4 items * 60° = 240°, but we want 180°)
-            const adjustedAngle = -90 + (index * 45); // Better spacing: 4 items across 135 degrees
-            const radian = (adjustedAngle * Math.PI) / 180;
+            const adjustedAngle = 90 + (index * 60); // Better spacing: 4 items across 135 degrees
+            const radian = - (adjustedAngle * Math.PI) / 180;
             const radius = 90;
             const x = Math.cos(radian) * radius;
             const y = Math.sin(radian) * radius;
