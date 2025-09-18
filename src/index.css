@@ -16,9 +16,9 @@
     --text-secondary: 225 12% 71%; /* #B4B7C2 */
     
     /* Purple Accents */
-    --purple: 253 79% 48%; /* #8B5CF6 */
+    --purple: 249 100% 67%; /* #8B5CF6 */
     --purple-border: 252 34% 19%; /* #2A2040 */
-    --purple-translucent: 253 79% 48% / 0.1;
+    --purple-translucent: 249 100% 67% / 0.1;
     
     /* Cyan Accents */
     --cyan: 187 100% 65%; /* #22D3EE */
@@ -28,10 +28,10 @@
     --card: 255 14% 8%; /* #141127 */
     --card-foreground: 225 14% 91%;
     
-    --primary: 253 79% 48%; /* Purple */
+    --primary: 249 100% 67%; /* Purple */
     --primary-foreground: 225 14% 91%;
     
-    --secondary: 252 24.59% 11.96%;
+    --secondary: 255 14% 8%;
     --secondary-foreground: 225 14% 91%;
     
     --muted: 252 34% 19%;

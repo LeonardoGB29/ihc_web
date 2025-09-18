@@ -3,13 +3,11 @@ import { Button } from "@/components/ui/button";
 import heroBg from "@/assets/hero-bg.jpg";
 
 interface HeroProps {
-  activeStep: number;
-  onStepChange: (step: number) => void;
+  onNavigate: (section: string) => void;
 }
 
-const Hero = ({ activeStep, onStepChange }: HeroProps) => {
+const Hero = ({ onNavigate }: HeroProps) => {
   const scrollToContent = () => {
-    /* FIXME: Adaptar HeroProps a MainLayout + RadialMenu */
     const element = document.getElementById('main-content');
     element?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -34,30 +32,28 @@ const Hero = ({ activeStep, onStepChange }: HeroProps) => {
 
       <div className="container mx-auto px-6 text-center z-10">
         <p className="text-text-secondary text-sm mb-4 font-medium tracking-wide uppercase">
-          Universidad Nacional de San Agustín
+          Instituto Tecnológico
         </p>
         
         <h1 className="text-5xl md:text-7xl font-bold text-text-primary mb-6 leading-tight">
-          Proyecto de{' '}
-          <span className="block text-purple">Interacción Humano-Computador</span>
+          Portafolio
+          <span className="block text-purple"> Digital</span>
         </h1>
         
         <p className="text-xl text-text-secondary mb-12 max-w-2xl mx-auto leading-relaxed">
-          Explorando la intersección entre las personas, la tecnología y el diseño para crear experiencias digitales significativas y accesibles.
-          <br />
-          Messi el GOAT 🐐
+          Descubre nuestros proyectos innovadores, metodologías de desarrollo 
+          y el talento detrás de cada solución tecnológica.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-          {/* FIXME: Adaptar onStepChange a MainLayout + RadialMenu */}
           <Button 
-            onClick={() => onStepChange(1)}
+            onClick={() => onNavigate('projects')}
             className="bg-purple hover:bg-purple/90 text-white px-8 py-6 text-lg transition-micro border border-purple-border hover:border-cyan/50 motion-reduce:transition-none"
           >
             Ver Proyectos
           </Button>
           <Button 
-            onClick={() => onStepChange(2)}
+            onClick={() => onNavigate('process')}
             variant="outline"
             className="border-purple-border bg-purple-translucent hover:bg-purple/10 text-text-primary px-8 py-6 text-lg transition-micro hover:border-cyan/50 motion-reduce:transition-none"
           >
@@ -67,7 +63,6 @@ const Hero = ({ activeStep, onStepChange }: HeroProps) => {
       </div>
 
       {/* Scroll Indicator with reduced motion support */}
-      {/* FIXME: Adaptar scrollToContent a MainLayout + RadialMenu */}
       <button 
         onClick={scrollToContent}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-text-secondary hover:text-cyan transition-micro motion-reduce:animate-none"
